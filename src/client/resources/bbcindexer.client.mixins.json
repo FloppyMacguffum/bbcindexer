@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "me.floppymacguffum.bbcindexer.mixins",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"TitleScreenButtonAdderMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

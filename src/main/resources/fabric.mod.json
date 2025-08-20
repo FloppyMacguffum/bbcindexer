@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 1,
+	"id": "bbcindexer",
+	"version": "1",
+	"name": "BBCIndexer",
+	"description": "Go through the Break Blocks Club Server List!",
+	"authors": [
+		{
+			"name": "FloppyMacguffum",
+			"contact": {
+				"email": "floppymacguffum@gmail.com"
+			}
+		}
+	],
+	"contact": {
+		"homepage": "https://github.com/floppymacguffum",
+		"sources": "https://github.com/floppymacguffum"
+	},
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"me.floppymacguffum.bbcindexer.BBCIndexerMain"
+		],
+		"client": [
+			"me.floppymacguffum.bbcindexer.BBCIndexerMainClient"
+		]
+	},
+	"mixins": [
+		{
+			"config": "bbcindexer.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"accessWidener": "bbcindexer.client.accesswidener",
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

@@ -44,10 +44,10 @@ public class BBCIndexerServerSlotList extends AlwaysSelectedEntryListWidget<BBCI
 		return client.currentScreen.width - 6;
 	}
 
-	protected void drawSelectionHighlight(DrawContext context, int y, int entryWidth, int entryHeight, int borderColor, int fillColor) {
+	protected void drawSelectionHighlight(DrawContext context, BBCIndexerServerSlotEntry entry, int fillColor) {
 		int startX = 0;
-		int endX = width + (overflows() ? -6 : -1);
-		context.fill(startX, y - 2, endX, y + entryHeight + 2, borderColor);
-		context.fill(startX + 1, y - 1, endX - 1, y + entryHeight + 1, fillColor);
+		int endX = client.currentScreen.width + (overflows() ? -6 : -1);
+		context.fill(startX, entry.getContentY() - 2, endX, entry.getContentY() + entry.getContentHeight() + 2, -1);
+		context.fill(startX + 1, entry.getContentY() - 1, endX - 1, entry.getContentY() + client.textRenderer.fontHeight + 1, 0xff000000);
 	}
 }

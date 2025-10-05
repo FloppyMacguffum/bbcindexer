@@ -28,7 +28,6 @@ import net.minecraft.text.Text;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.TitleScreen;
 
-import me.floppymacguffum.bbcindexer.BBCIndexerMain;
 import me.floppymacguffum.bbcindexer.ui.BBCIndexerButton;
 import me.floppymacguffum.bbcindexer.ui.BBCIndexerMainMenu;
 

@@ -120,7 +120,7 @@ public class BBCIndexerServerBrowser extends Screen {
 		String base = bbcServerListSlots.getSelectedOrNull().getBBCServer().getAddress();
 		int port = bbcServerListSlots.getSelectedOrNull().getBBCServer().getPort();
 		globServerInfo = new ServerInfo("BBC Server", base + ":" + port, ServerInfo.ServerType.OTHER);
-		client.setScreen(new AddServerScreen(this, this::actuallyAddServer, globServerInfo));
+		client.setScreen(new AddServerScreen(this, Text.literal("Add BBC Server"), this::actuallyAddServer, globServerInfo));
 	}
 
 	private void actuallyAddServer(boolean confirmation) {
@@ -155,6 +155,10 @@ public class BBCIndexerServerBrowser extends Screen {
 				bbcServerListSlots.addEntryToList(new BBCIndexerServerSlotEntry(srv));
 			}
 		}
+	}
+
+	public BBCIndexerServerSlotList getBBCIndexerServerSlotList() {
+		return this.bbcServerListSlots;
 	}
 
 	public void setErroredOut(boolean erroredOut) {

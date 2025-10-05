@@ -26,7 +26,6 @@ package me.floppymacguffum.bbcindexer.ui;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 
 import org.joml.Matrix3x2fStack;
@@ -47,12 +46,13 @@ public class BBCIndexerServerSlotEntry extends AlwaysSelectedEntryListWidget.Ent
 	}
 
 	@Override
-	public void render(DrawContext context, int index, int y, int x, int width, int height, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+	public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta)
+	{
 		final Matrix3x2fStack mat = context.getMatrices();
 		mat.pushMatrix();
-		mat.translate(x, y);
+		mat.translate(getContentX(), getContentY());
 		String displayStr = server.getAddress() + ":" + server.getPort() + "\247r - " + server.getVersion() + "\247r - cracked: " + (server.getOfflineMode() ? "yes" : "no");
-		context.drawCenteredTextWithShadow(mc.textRenderer, displayStr, width / 2, height / 2 - mc.textRenderer.fontHeight / 2, -1);
+		context.drawCenteredTextWithShadow(mc.textRenderer, displayStr, getWidth() / 2, getContentHeight() / 2 - mc.textRenderer.fontHeight / 2, -1);
 		mat.popMatrix();
 	}
 

@@ -157,10 +157,6 @@ public class BBCIndexerServerBrowser extends Screen {
 		}
 	}
 
-	public BBCIndexerServerSlotList getBBCIndexerServerSlotList() {
-		return this.bbcServerListSlots;
-	}
-
 	public void setErroredOut(boolean erroredOut) {
 		this.erroredOut = erroredOut;
 	}

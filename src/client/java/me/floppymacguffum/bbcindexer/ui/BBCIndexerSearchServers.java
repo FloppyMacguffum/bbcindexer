@@ -27,6 +27,7 @@ import net.minecraft.MinecraftVersion;
 import net.minecraft.text.Text;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 
@@ -37,6 +38,7 @@ public class BBCIndexerSearchServers extends Screen {
 	private TextFieldWidget motdField;
 	private TextFieldWidget versionField;
 	private CyclingButtonWidget regionField;
+	private CheckboxWidget crackedServers;
 	private BBCRegion region;
 
 	public BBCIndexerSearchServers(Screen parentScreen) {
@@ -53,8 +55,10 @@ public class BBCIndexerSearchServers extends Screen {
 		versionField = new TextFieldWidget(textRenderer, width / 2 - 100, 100 + textRenderer.fontHeight, 200, 20, Text.literal("Version (Wildcard is supported)"));
 		versionField.setText(MinecraftVersion.create().id());
 		addDrawableChild(versionField);
-		addDrawableChild(CyclingButtonWidget.builder(BBCRegion::getReadableRegion).values(BBCRegion.values()).initially(BBCRegion.NONE).build(width / 2 - 100, 142, 200, 20, Text.literal("Region"), (button, bbcRegion) -> region = bbcRegion));
-		addDrawableChild(new BBCIndexerButton(1, width / 2 - 100, 166, 200, 20, Text.literal("Search"), button -> client.setScreen(new BBCIndexerServerBrowser(this, motdField.getText(), versionField.getText(), region.getApiRegion(), 1))));
+		crackedServers = CheckboxWidget.builder(Text.literal("Show only cracked servers"), textRenderer).pos(width / 2 - 100, 139).checked(false).build();
+		addDrawableChild(crackedServers);
+		addDrawableChild(CyclingButtonWidget.builder(BBCRegion::getReadableRegion).values(BBCRegion.values()).initially(BBCRegion.NONE).build(width / 2 - 100, 166, 200, 20, Text.literal("Region"), (button, bbcRegion) -> region = bbcRegion));
+		addDrawableChild(new BBCIndexerButton(1, width / 2 - 100, 190, 200, 20, Text.literal("Search"), button -> client.setScreen(new BBCIndexerServerBrowser(this, motdField.getText(), versionField.getText(), region.getApiRegion(), crackedServers.isChecked(), 1))));
 	}
 
 	public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {

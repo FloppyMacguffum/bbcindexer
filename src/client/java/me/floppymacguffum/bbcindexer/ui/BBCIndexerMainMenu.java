@@ -38,7 +38,7 @@ public class BBCIndexerMainMenu extends Screen {
 	protected void init() {
 		super.init();
 		addDrawableChild(new BBCIndexerButton(1, (width / 2) - 75, height / 2 - 12, Text.literal("Search Server List"), button -> client.setScreen(new BBCIndexerSearchServers(this))));
-		addDrawableChild(new BBCIndexerButton(2, (width / 2) - 75, height / 2 + 12, Text.literal("Browse Servers"), button -> client.setScreen(new BBCIndexerServerBrowser(this, "", "", "", 1))));
+		addDrawableChild(new BBCIndexerButton(2, (width / 2) - 75, height / 2 + 12, Text.literal("Browse Servers"), button -> client.setScreen(new BBCIndexerServerBrowser(this, "", "", "", false, 1))));
 		addDrawableChild(new BBCIndexerButton(3, 0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
 	}
 

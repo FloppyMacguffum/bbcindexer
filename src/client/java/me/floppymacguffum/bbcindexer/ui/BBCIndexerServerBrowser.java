@@ -43,9 +43,9 @@ public class BBCIndexerServerBrowser extends Screen {
 	private ServerInfo globServerInfo;
 	private String motd, version, region;
 	private int page;
-	private boolean needsUpdating, erroredOut;
+	private boolean needsUpdating, erroredOut, cracked;
 
-	public BBCIndexerServerBrowser(Screen parentScreen, String motd, String version, String region, int page) {
+	public BBCIndexerServerBrowser(Screen parentScreen, String motd, String version, String region, boolean cracked, int page) {
 		super(Text.literal("Break Blocks Club Server Browser"));
 		this.parentScreen = parentScreen;
 		this.bbcServers = bbcServers;
@@ -54,7 +54,7 @@ public class BBCIndexerServerBrowser extends Screen {
 		this.region = region;
 		this.page = page;
 		this.bbcServers = null;
-		BBCApi.getBBCServers(this, motd, version, region, page);
+		BBCApi.getBBCServers(this, motd, version, region, cracked, page);
 		this.needsUpdating = false;
 		this.erroredOut = false;
 	}
@@ -107,13 +107,13 @@ public class BBCIndexerServerBrowser extends Screen {
 	private void nextPage() {
 		page++;
 		bbcServerListSlots.clearAllEntries();
-		BBCApi.getBBCServers(this, motd, version, region, page);
+		BBCApi.getBBCServers(this, motd, version, region, cracked, page);
 	}
 
 	private void previousPage() {
 		page--;
 		bbcServerListSlots.clearAllEntries();
-		BBCApi.getBBCServers(this, motd, version, region, page);
+		BBCApi.getBBCServers(this, motd, version, region, cracked, page);
 	}
 
 	private void addToServerList() {

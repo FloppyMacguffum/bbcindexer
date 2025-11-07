@@ -35,12 +35,13 @@ import org.json.JSONObject;
 import me.floppymacguffum.bbcindexer.ui.BBCIndexerServerBrowser;
 
 public class BBCApi {
-	public static void getBBCServers(BBCIndexerServerBrowser callbackScreen, String motd, String version, String region, int page) {
+	public static void getBBCServers(BBCIndexerServerBrowser callbackScreen, String motd, String version, String region, boolean cracked, int page) {
 		String encodedMotd = MiscUtils.encodeHTTPString(motd);
 		String encodedVersion = MiscUtils.encodeHTTPString(version);
 		String encodedRegion = MiscUtils.encodeHTTPString(region);
 		String pageParam = "" + page;
-		String queryStr = "?motd=" + encodedMotd + "&version=" + encodedVersion + "&region=" + encodedRegion + "&page=" + pageParam;
+		String crackedString = cracked ? "on" : "off";
+		String queryStr = "?motd=" + encodedMotd + "&version=" + encodedVersion + "&region=" + encodedRegion + "&page=" + pageParam + "&offlineOnly=" + crackedString;
 		String url = "https://api.breakblocks.com/api/v0.1/servers/find" + queryStr;
 		final StupidBBCServersHack bbcServers = new StupidBBCServersHack(null);
 		callbackScreen.setBBCServers(bbcServers.servers);
@@ -63,6 +64,7 @@ public class BBCApi {
 					jso = new JSONObject(txt);
 				} catch(Exception e) {
 					e.printStackTrace();
+					callbackScreen.setErroredOut(true);
 					return;
 				}
 				JSONArray ja = null;
@@ -70,6 +72,7 @@ public class BBCApi {
 					ja = jso.getJSONArray("results");
 				} catch(Exception e) {
 					e.printStackTrace();
+					callbackScreen.setErroredOut(true);
 					return;
 				}
 				int elements = ja.length();
@@ -82,6 +85,7 @@ public class BBCApi {
 						bbcServers.servers[i] = new BBCServer(jobj);
 					} catch(Exception e) {
 						e.printStackTrace();
+						callbackScreen.setErroredOut(true);
 						return;
 					}
 				}

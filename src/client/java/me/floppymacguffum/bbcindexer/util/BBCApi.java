@@ -41,7 +41,7 @@ public class BBCApi {
 		String encodedRegion = MiscUtils.encodeHTTPString(region);
 		String pageParam = "" + page;
 		String crackedString = cracked ? "on" : "off";
-		String queryStr = "?motd=" + encodedMotd + "&version=" + encodedVersion + "&region=" + encodedRegion + "&page=" + pageParam + "&offlineOnly=" + crackedString;
+		String queryStr = "?motd=" + encodedMotd + "&version=" + encodedVersion + "&region=" + encodedRegion + "&page=" + pageParam + "&offlineOnly=" + crackedString + "&limit=20";
 		String url = "https://api.breakblocks.com/api/v0.1/servers/find" + queryStr;
 		final StupidBBCServersHack bbcServers = new StupidBBCServersHack(null);
 		callbackScreen.setBBCServers(bbcServers.servers);

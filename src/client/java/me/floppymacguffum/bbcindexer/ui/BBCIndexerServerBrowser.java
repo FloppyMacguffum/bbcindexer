@@ -66,7 +66,7 @@ public class BBCIndexerServerBrowser extends Screen {
 		bbcBackButton.active = (bbcServers != null && page >= 2);
 		addDrawableChild(bbcBackButton);
 		bbcNextButton = new BBCIndexerButton(-69420, width - 60, height - 20, 60, 20, Text.literal("Next"), button -> nextPage());
-		bbcNextButton.active = (bbcServers != null && bbcServers.length > 49);
+		bbcNextButton.active = (bbcServers != null && bbcServers.length > 19);
 		addDrawableChild(bbcNextButton);
 		bbcAddServerButton = new BBCIndexerButton(-28980, width - 166, height - 20, 100, 20, Text.literal("Add to my servers"), button -> addToServerList());
 		bbcJoinServerButton = new BBCIndexerButton(-4761, 66, height - 20, 100, 20, Text.literal("Join server"), button -> joinServer());
@@ -86,7 +86,7 @@ public class BBCIndexerServerBrowser extends Screen {
 	public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
 		super.render(context, mouseX, mouseY, deltaTicks);
 		bbcBackButton.active = (bbcServers != null && page >= 2);
-		bbcNextButton.active = (bbcServers != null && bbcServers.length > 49);
+		bbcNextButton.active = (bbcServers != null && bbcServers.length > 19);
 		bbcAddServerButton.active = bbcServerListSlots.getSelectedOrNull() != null;
 		bbcJoinServerButton.active = bbcServerListSlots.getSelectedOrNull() != null;
 		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 7, -1);

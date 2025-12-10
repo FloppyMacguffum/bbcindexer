@@ -31,6 +31,7 @@ import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 
+import me.floppymacguffum.bbcindexer.BBCIndexerMainClient;
 import me.floppymacguffum.bbcindexer.util.BBCRegion;
 
 public class BBCIndexerSearchServers extends Screen {
@@ -44,11 +45,11 @@ public class BBCIndexerSearchServers extends Screen {
 	public BBCIndexerSearchServers(Screen parentScreen) {
 		super(Text.literal("Break Blocks Club Server Search"));
 		this.parentScreen = parentScreen;
-		this.region = BBCRegion.NONE;
 	}
 
 	protected void init() {
 		super.init();
+		this.region = BBCRegion.NONE;
 		addDrawableChild(new BBCIndexerButton(0, 0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
 		motdField = new TextFieldWidget(textRenderer, width / 2 - 100, 62 + textRenderer.fontHeight, 200, 20, Text.literal("MOTD (Wildcard is supported)"));
 		addDrawableChild(motdField);
@@ -57,7 +58,7 @@ public class BBCIndexerSearchServers extends Screen {
 		addDrawableChild(versionField);
 		crackedServers = CheckboxWidget.builder(Text.literal("Show only cracked servers"), textRenderer).pos(width / 2 - 100, 139).checked(false).build();
 		addDrawableChild(crackedServers);
-		addDrawableChild(CyclingButtonWidget.builder(BBCRegion::getReadableRegion).values(BBCRegion.values()).initially(BBCRegion.NONE).build(width / 2 - 100, 166, 200, 20, Text.literal("Region"), (button, bbcRegion) -> region = bbcRegion));
+		addDrawableChild(CyclingButtonWidget.builder(BBCRegion::getReadableRegion, region).values(BBCRegion.values()).build(width / 2 - 100, 166, 200, 20, Text.literal("Region"), (button, bbcRegion) -> region = bbcRegion));
 		addDrawableChild(new BBCIndexerButton(1, width / 2 - 100, 190, 200, 20, Text.literal("Search"), button -> client.setScreen(new BBCIndexerServerBrowser(this, motdField.getText(), versionField.getText(), region.getApiRegion(), crackedServers.isChecked(), 1))));
 	}
 

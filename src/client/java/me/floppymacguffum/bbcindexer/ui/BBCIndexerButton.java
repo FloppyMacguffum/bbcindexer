@@ -23,18 +23,17 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.ui;
 
-import net.minecraft.text.Text;
 import net.minecraft.client.gui.widget.ButtonWidget;
 
-public class BBCIndexerButton extends ButtonWidget {
+public class BBCIndexerButton extends ButtonWidget.Text {
 	private final int id;
 
-	public BBCIndexerButton(int id, int x, int y, int width, int height, Text message, PressAction onPress) {
+	public BBCIndexerButton(int id, int x, int y, int width, int height, net.minecraft.text.Text message, PressAction onPress) {
 		super(x, y, width, height, message, onPress, DEFAULT_NARRATION_SUPPLIER);
 		this.id = id;
 	}
 
-	public BBCIndexerButton(int id, int x, int y, Text message, PressAction onPress) {
+	public BBCIndexerButton(int id, int x, int y, net.minecraft.text.Text message, PressAction onPress) {
 		this(id, x, y, 150, 20, message, onPress);
 	}
 

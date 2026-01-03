@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2025 FloppyMacguffum
+Copyright (c) 2026 FloppyMacguffum
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,23 +21,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
+/* class kept because i'm lazy and don't want to use a goofy button builder */
+
 package me.floppymacguffum.bbcindexer.ui;
 
 import net.minecraft.client.gui.widget.ButtonWidget;
 
 public class BBCIndexerButton extends ButtonWidget.Text {
-	private final int id;
-
-	public BBCIndexerButton(int id, int x, int y, int width, int height, net.minecraft.text.Text message, PressAction onPress) {
+	public BBCIndexerButton(int x, int y, int width, int height, net.minecraft.text.Text message, PressAction onPress) {
 		super(x, y, width, height, message, onPress, DEFAULT_NARRATION_SUPPLIER);
-		this.id = id;
 	}
 
-	public BBCIndexerButton(int id, int x, int y, net.minecraft.text.Text message, PressAction onPress) {
-		this(id, x, y, 150, 20, message, onPress);
-	}
-
-	public int getId() {
-		return id;
+	public BBCIndexerButton(int x, int y, net.minecraft.text.Text message, PressAction onPress) {
+		this(x, y, 150, 20, message, onPress);
 	}
 }

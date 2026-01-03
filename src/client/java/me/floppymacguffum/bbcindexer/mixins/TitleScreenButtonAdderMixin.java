@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2025 FloppyMacguffum
+Copyright (c) 2026 FloppyMacguffum
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,6 @@ package me.floppymacguffum.bbcindexer.mixins;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
-import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.TitleScreen;
 
 import me.floppymacguffum.bbcindexer.ui.BBCIndexerButton;
@@ -38,21 +37,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TitleScreen.class)
 public class TitleScreenButtonAdderMixin {
-	private boolean foundBBCButton = false;
-
 	@Inject(at = @At("RETURN"), method = "init")
 	private void init(CallbackInfo info) {
-		if(MinecraftClient.getInstance().currentScreen instanceof TitleScreen) {
-			TitleScreen ts = (TitleScreen) MinecraftClient.getInstance().currentScreen;
-			for(Drawable d : ts.drawables)	{
-				if(d instanceof BBCIndexerButton) {
-					if(((BBCIndexerButton) d).getId() != -69) {
-						foundBBCButton = true;
-						break;
-					}
-				}
-			}
-			if(!foundBBCButton) ts.addDrawableChild(new BBCIndexerButton(-69, 0, 0, Text.literal("Break Blocks Club Servers"), button -> MinecraftClient.getInstance().setScreen(new BBCIndexerMainMenu(ts))));
-		}
+		MinecraftClient.getInstance().currentScreen.addDrawableChild(new BBCIndexerButton(0, 0, Text.literal("Break Blocks Club Servers"), button -> MinecraftClient.getInstance().setScreen(new BBCIndexerMainMenu(MinecraftClient.getInstance().currentScreen))));
 	}
 }

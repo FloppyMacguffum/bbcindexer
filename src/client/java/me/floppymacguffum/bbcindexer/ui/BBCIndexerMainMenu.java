@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2025 FloppyMacguffum
+Copyright (c) 2026 FloppyMacguffum
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,9 +37,9 @@ public class BBCIndexerMainMenu extends Screen {
 
 	protected void init() {
 		super.init();
-		addDrawableChild(new BBCIndexerButton(1, (width / 2) - 75, height / 2 - 12, Text.literal("Search Server List"), button -> client.setScreen(new BBCIndexerSearchServers(this))));
-		addDrawableChild(new BBCIndexerButton(2, (width / 2) - 75, height / 2 + 12, Text.literal("Browse Servers"), button -> client.setScreen(new BBCIndexerServerBrowser(this, "", "", "", false, 1))));
-		addDrawableChild(new BBCIndexerButton(3, 0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
+		addDrawableChild(new BBCIndexerButton((width / 2) - 75, height / 2 - 12, Text.literal("Search Server List"), button -> client.setScreen(new BBCIndexerSearchServers(this))));
+		addDrawableChild(new BBCIndexerButton((width / 2) - 75, height / 2 + 12, Text.literal("Browse Servers"), button -> client.setScreen(new BBCIndexerServerBrowser(this, "", "", "", false, 1))));
+		addDrawableChild(new BBCIndexerButton(0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
 	}
 
 	public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {

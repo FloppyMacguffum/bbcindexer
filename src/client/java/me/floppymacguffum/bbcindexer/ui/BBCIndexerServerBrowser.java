@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2025 FloppyMacguffum
+Copyright (c) 2026 FloppyMacguffum
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,6 @@ public class BBCIndexerServerBrowser extends Screen {
 	public BBCIndexerServerBrowser(Screen parentScreen, String motd, String version, String region, boolean cracked, int page) {
 		super(Text.literal("Break Blocks Club Server Browser"));
 		this.parentScreen = parentScreen;
-		this.bbcServers = bbcServers;
 		this.motd = motd;
 		this.version = version;
 		this.region = region;
@@ -61,15 +60,15 @@ public class BBCIndexerServerBrowser extends Screen {
 
 	protected void init() {
 		super.init();
-		addDrawableChild(new BBCIndexerButton(-69, 0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
-		bbcBackButton = new BBCIndexerButton(-420, 0, height - 20, 60, 20, Text.literal("Back"), button -> previousPage());
+		addDrawableChild(new BBCIndexerButton(0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
+		bbcBackButton = new BBCIndexerButton(0, height - 20, 60, 20, Text.literal("Back"), button -> previousPage());
 		bbcBackButton.active = (bbcServers != null && page >= 2);
 		addDrawableChild(bbcBackButton);
-		bbcNextButton = new BBCIndexerButton(-69420, width - 60, height - 20, 60, 20, Text.literal("Next"), button -> nextPage());
+		bbcNextButton = new BBCIndexerButton(width - 60, height - 20, 60, 20, Text.literal("Next"), button -> nextPage());
 		bbcNextButton.active = (bbcServers != null && bbcServers.length > 19);
 		addDrawableChild(bbcNextButton);
-		bbcAddServerButton = new BBCIndexerButton(-28980, width - 166, height - 20, 100, 20, Text.literal("Add to my servers"), button -> addToServerList());
-		bbcJoinServerButton = new BBCIndexerButton(-4761, 66, height - 20, 100, 20, Text.literal("Join server"), button -> joinServer());
+		bbcAddServerButton = new BBCIndexerButton(width - 166, height - 20, 100, 20, Text.literal("Add to my servers"), button -> addToServerList());
+		bbcJoinServerButton = new BBCIndexerButton(66, height - 20, 100, 20, Text.literal("Join server"), button -> joinServer());
 		bbcServerListSlots = new BBCIndexerServerSlotList(client, width, height, 6 + (textRenderer.fontHeight + 2) * 3, 30, textRenderer.fontHeight + 4);
 		addDrawableChild(bbcServerListSlots);
 		if(bbcServers != null) {

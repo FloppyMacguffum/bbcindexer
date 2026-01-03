@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2025 FloppyMacguffum
+Copyright (c) 2026 FloppyMacguffum
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,6 @@ public class BBCIndexerSearchServers extends Screen {
 	private Screen parentScreen;
 	private TextFieldWidget motdField;
 	private TextFieldWidget versionField;
-	private CyclingButtonWidget regionField;
 	private CheckboxWidget crackedServers;
 	private BBCRegion region;
 
@@ -50,7 +49,7 @@ public class BBCIndexerSearchServers extends Screen {
 	protected void init() {
 		super.init();
 		this.region = BBCRegion.NONE;
-		addDrawableChild(new BBCIndexerButton(0, 0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
+		addDrawableChild(new BBCIndexerButton(0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
 		motdField = new TextFieldWidget(textRenderer, width / 2 - 100, 62 + textRenderer.fontHeight, 200, 20, Text.literal("MOTD (Wildcard is supported)"));
 		addDrawableChild(motdField);
 		versionField = new TextFieldWidget(textRenderer, width / 2 - 100, 100 + textRenderer.fontHeight, 200, 20, Text.literal("Version (Wildcard is supported)"));
@@ -59,7 +58,7 @@ public class BBCIndexerSearchServers extends Screen {
 		crackedServers = CheckboxWidget.builder(Text.literal("Show only cracked servers"), textRenderer).pos(width / 2 - 100, 139).checked(false).build();
 		addDrawableChild(crackedServers);
 		addDrawableChild(CyclingButtonWidget.builder(BBCRegion::getReadableRegion, region).values(BBCRegion.values()).build(width / 2 - 100, 166, 200, 20, Text.literal("Region"), (button, bbcRegion) -> region = bbcRegion));
-		addDrawableChild(new BBCIndexerButton(1, width / 2 - 100, 190, 200, 20, Text.literal("Search"), button -> client.setScreen(new BBCIndexerServerBrowser(this, motdField.getText(), versionField.getText(), region.getApiRegion(), crackedServers.isChecked(), 1))));
+		addDrawableChild(new BBCIndexerButton(width / 2 - 100, 190, 200, 20, Text.literal("Search"), button -> client.setScreen(new BBCIndexerServerBrowser(this, motdField.getText(), versionField.getText(), region.getApiRegion(), crackedServers.isChecked(), 1))));
 	}
 
 	public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {

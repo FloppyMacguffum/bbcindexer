@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2025 FloppyMacguffum
+Copyright (c) 2026 FloppyMacguffum
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -53,12 +53,9 @@ public class BBCApi {
 				BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
 				String ln, txt = "";
 				while((ln = br.readLine()) != null) {
-					txt = ln;
+					txt += ln;
 				}
 				br.close();
-				if(txt == null) {
-					return;
-				}
 				JSONObject jso = null;
 				try {
 					jso = new JSONObject(txt);

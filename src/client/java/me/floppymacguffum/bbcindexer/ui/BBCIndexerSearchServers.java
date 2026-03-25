@@ -23,52 +23,52 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.ui;
 
-import net.minecraft.MinecraftVersion;
-import net.minecraft.text.Text;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.CheckboxWidget;
-import net.minecraft.client.gui.widget.CyclingButtonWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.DetectedVersion;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Checkbox;
+import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 import me.floppymacguffum.bbcindexer.BBCIndexerMainClient;
 import me.floppymacguffum.bbcindexer.util.BBCRegion;
 
 public class BBCIndexerSearchServers extends Screen {
 	private Screen parentScreen;
-	private TextFieldWidget motdField;
-	private TextFieldWidget versionField;
-	private CheckboxWidget crackedServers;
+	private EditBox motdField;
+	private EditBox versionField;
+	private Checkbox crackedServers;
 	private BBCRegion region;
 
 	public BBCIndexerSearchServers(Screen parentScreen) {
-		super(Text.literal("Break Blocks Club Server Search"));
+		super(Component.literal("Break Blocks Club Server Search"));
 		this.parentScreen = parentScreen;
 	}
 
 	protected void init() {
 		super.init();
 		this.region = BBCRegion.NONE;
-		addDrawableChild(new BBCIndexerButton(0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
-		motdField = new TextFieldWidget(textRenderer, width / 2 - 100, 62 + textRenderer.fontHeight, 200, 20, Text.literal("MOTD (Wildcard is supported)"));
-		addDrawableChild(motdField);
-		versionField = new TextFieldWidget(textRenderer, width / 2 - 100, 100 + textRenderer.fontHeight, 200, 20, Text.literal("Version (Wildcard is supported)"));
-		versionField.setText(MinecraftVersion.create().id());
-		addDrawableChild(versionField);
-		crackedServers = CheckboxWidget.builder(Text.literal("Show only cracked servers"), textRenderer).pos(width / 2 - 100, 139).checked(false).build();
-		addDrawableChild(crackedServers);
-		addDrawableChild(CyclingButtonWidget.builder(BBCRegion::getReadableRegion, region).values(BBCRegion.values()).build(width / 2 - 100, 166, 200, 20, Text.literal("Region"), (button, bbcRegion) -> region = bbcRegion));
-		addDrawableChild(new BBCIndexerButton(width / 2 - 100, 190, 200, 20, Text.literal("Search"), button -> client.setScreen(new BBCIndexerServerBrowser(this, motdField.getText(), versionField.getText(), region.getApiRegion(), crackedServers.isChecked(), 1))));
+		addRenderableWidget(new BBCIndexerButton(0, 0, 20, 20, Component.literal("<-"), button -> minecraft.setScreen(parentScreen)));
+		motdField = new EditBox(font, width / 2 - 100, 62 + font.lineHeight, 200, 20, Component.literal("MOTD (Wildcard is supported)"));
+		addRenderableWidget(motdField);
+		versionField = new EditBox(font, width / 2 - 100, 100 + font.lineHeight, 200, 20, Component.literal("Version (Wildcard is supported)"));
+		versionField.setValue(DetectedVersion.tryDetectVersion().id());
+		addRenderableWidget(versionField);
+		crackedServers = Checkbox.builder(Component.literal("Show only cracked servers"), font).pos(width / 2 - 100, 139).selected(false).build();
+		addRenderableWidget(crackedServers);
+		addRenderableWidget(CycleButton.builder(BBCRegion::getReadableRegion, region).withValues(BBCRegion.values()).create(width / 2 - 100, 166, 200, 20, Component.literal("Region"), (button, bbcRegion) -> region = bbcRegion));
+		addRenderableWidget(new BBCIndexerButton(width / 2 - 100, 190, 200, 20, Component.literal("Search"), button -> minecraft.setScreen(new BBCIndexerServerBrowser(this, motdField.getValue(), versionField.getValue(), region.getApiRegion(), crackedServers.selected(), 1))));
 	}
 
-	public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
 		super.render(context, mouseX, mouseY, deltaTicks);
-		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 15, -1);
-		context.drawCenteredTextWithShadow(textRenderer, Text.literal("MOTD (Wildcard is supported)"), width / 2, 68 - textRenderer.fontHeight, -1);
-		context.drawCenteredTextWithShadow(textRenderer, Text.literal("Version (Wildcard is supported)"), width / 2, 104 - textRenderer.fontHeight, -1);
+		context.drawCenteredString(font, title, width / 2, 15, -1);
+		context.drawCenteredString(font, Component.literal("MOTD (Wildcard is supported)"), width / 2, 68 - font.lineHeight, -1);
+		context.drawCenteredString(font, Component.literal("Version (Wildcard is supported)"), width / 2, 104 - font.lineHeight, -1);
 	}
 
-	public void close() {
-		client.setScreen(parentScreen);
+	public void onClose() {
+		minecraft.setScreen(parentScreen);
 	}
 }

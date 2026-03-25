@@ -23,27 +23,27 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.util;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public enum BBCRegion {
-	NORTH_AMERICA(Text.literal("North America"), "NA"),
-	EUROPE(Text.literal("Europe"), "EU"),
-	ASIA(Text.literal("Asia"), "AS"),
-	SOUTH_AMERICA(Text.literal("South America"), "SA"),
-	AFRICA(Text.literal("Africa"), "AF"),
-	OCEANIA(Text.literal("Oceania"), "OC"),
-	ANTARCTICA(Text.literal("Antarctica"), "AN"),
-	NONE(Text.literal("None"), "");
+	NORTH_AMERICA(Component.literal("North America"), "NA"),
+	EUROPE(Component.literal("Europe"), "EU"),
+	ASIA(Component.literal("Asia"), "AS"),
+	SOUTH_AMERICA(Component.literal("South America"), "SA"),
+	AFRICA(Component.literal("Africa"), "AF"),
+	OCEANIA(Component.literal("Oceania"), "OC"),
+	ANTARCTICA(Component.literal("Antarctica"), "AN"),
+	NONE(Component.literal("None"), "");
 
-	private final Text readableRegion;
+	private final Component readableRegion;
 	private final String apiRegion;
 
-	BBCRegion(Text readableRegion, String apiRegion) {
+	BBCRegion(Component readableRegion, String apiRegion) {
 		this.readableRegion = readableRegion;
 		this.apiRegion = apiRegion;
 	}
 
-	public Text getReadableRegion() {
+	public Component getReadableRegion() {
 		return readableRegion;
 	}
 

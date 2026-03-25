@@ -26,14 +26,14 @@ SOFTWARE.
 
 package me.floppymacguffum.bbcindexer.ui;
 
-import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.components.Button;
 
-public class BBCIndexerButton extends ButtonWidget.Text {
-	public BBCIndexerButton(int x, int y, int width, int height, net.minecraft.text.Text message, PressAction onPress) {
-		super(x, y, width, height, message, onPress, DEFAULT_NARRATION_SUPPLIER);
+public class BBCIndexerButton extends Button.Plain {
+	public BBCIndexerButton(int x, int y, int width, int height, net.minecraft.network.chat.Component message, OnPress onPress) {
+		super(x, y, width, height, message, onPress, DEFAULT_NARRATION);
 	}
 
-	public BBCIndexerButton(int x, int y, net.minecraft.text.Text message, PressAction onPress) {
+	public BBCIndexerButton(int x, int y, net.minecraft.network.chat.Component message, OnPress onPress) {
 		this(x, y, 150, 20, message, onPress);
 	}
 }

@@ -23,12 +23,12 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.ui;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ObjectSelectionList;
 
-public class BBCIndexerServerSlotList extends AlwaysSelectedEntryListWidget<BBCIndexerServerSlotEntry> {
-	public BBCIndexerServerSlotList(MinecraftClient mc, int width, int height, int top, int bottom, int entryHeight) {
+public class BBCIndexerServerSlotList extends ObjectSelectionList<BBCIndexerServerSlotEntry> {
+	public BBCIndexerServerSlotList(Minecraft mc, int width, int height, int top, int bottom, int entryHeight) {
 		super(mc, width, height - top - bottom, top, entryHeight);
 	}
 
@@ -40,14 +40,14 @@ public class BBCIndexerServerSlotList extends AlwaysSelectedEntryListWidget<BBCI
 		clearEntries();
 	}
 
-	protected int getScrollbarX() {
-		return client.currentScreen.width - 6;
+	protected int scrollBarX() {
+		return minecraft.screen.width - 6;
 	}
 
-	protected void drawSelectionHighlight(DrawContext context, BBCIndexerServerSlotEntry entry, int fillColor) {
+	protected void renderSelection(GuiGraphics context, BBCIndexerServerSlotEntry entry, int fillColor) {
 		int startX = 0;
-		int endX = client.currentScreen.width + (overflows() ? -6 : -1);
+		int endX = minecraft.screen.width + (scrollbarVisible() ? -6 : -1);
 		context.fill(startX, entry.getContentY() - 2, endX, entry.getContentY() + entry.getContentHeight() + 2, -1);
-		context.fill(startX + 1, entry.getContentY() - 1, endX - 1, entry.getContentY() + client.textRenderer.fontHeight + 1, 0xff000000);
+		context.fill(startX + 1, entry.getContentY() - 1, endX - 1, entry.getContentY() + minecraft.font.lineHeight + 1, 0xff000000);
 	}
 }

@@ -74,8 +74,7 @@ public class BBCApi {
 				}
 				int elements = ja.length();
 				bbcServers.servers = new BBCServer[elements];
-				for(int i = 0; i < elements; i++)
-				{
+				for(int i = 0; i < elements; i++) {
 					JSONObject jobj = null;
 					try {
 						jobj = ja.getJSONObject(i);

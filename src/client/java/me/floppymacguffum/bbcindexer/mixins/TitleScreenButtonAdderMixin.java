@@ -23,9 +23,9 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.mixins;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
-import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.network.chat.Component;
 
 import me.floppymacguffum.bbcindexer.ui.BBCIndexerButton;
 import me.floppymacguffum.bbcindexer.ui.BBCIndexerMainMenu;
@@ -39,6 +39,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class TitleScreenButtonAdderMixin {
 	@Inject(at = @At("RETURN"), method = "init")
 	private void init(CallbackInfo info) {
-		MinecraftClient.getInstance().currentScreen.addDrawableChild(new BBCIndexerButton(0, 0, Text.literal("Break Blocks Club Servers"), button -> MinecraftClient.getInstance().setScreen(new BBCIndexerMainMenu(MinecraftClient.getInstance().currentScreen))));
+		Minecraft.getInstance().screen.addRenderableWidget(new BBCIndexerButton(0, 0, Component.literal("Break Blocks Club Servers"), button -> Minecraft.getInstance().setScreen(new BBCIndexerMainMenu(Minecraft.getInstance().screen))));
 	}
 }

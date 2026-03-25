@@ -23,36 +23,35 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.ui;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.network.chat.Component;
 
 import org.joml.Matrix3x2fStack;
 
 import me.floppymacguffum.bbcindexer.util.BBCServer;
 
-public class BBCIndexerServerSlotEntry extends AlwaysSelectedEntryListWidget.Entry<BBCIndexerServerSlotEntry> {
-	private MinecraftClient mc;
+public class BBCIndexerServerSlotEntry extends ObjectSelectionList.Entry<BBCIndexerServerSlotEntry> {
+	private Minecraft mc;
 	private BBCServer server;
 
 	public BBCIndexerServerSlotEntry(BBCServer server) {
-		this.mc = MinecraftClient.getInstance();
+		this.mc = Minecraft.getInstance();
 		this.server = server;
 	}
 
-	public Text getNarration() {
-		return Text.of(server.getAddress().replaceAll("\\.", " dot ") + " port " + server.getPort());
+	public Component getNarration() {
+		return Component.nullToEmpty(server.getAddress().replaceAll("\\.", " dot ") + " port " + server.getPort());
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta)
-	{
-		final Matrix3x2fStack mat = context.getMatrices();
+	public void renderContent(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+		final Matrix3x2fStack mat = context.pose();
 		mat.pushMatrix();
 		mat.translate(getContentX(), getContentY());
 		String displayStr = server.getAddress() + ":" + server.getPort() + "\247r - " + server.getVersion() + "\247r - cracked: " + (server.getOfflineMode() ? "yes" : "no");
-		context.drawCenteredTextWithShadow(mc.textRenderer, displayStr, getWidth() / 2, getContentHeight() / 2 - mc.textRenderer.fontHeight / 2, -1);
+		context.drawCenteredString(mc.font, displayStr, getWidth() / 2, getContentHeight() / 2 - mc.font.lineHeight / 2, -1);
 		mat.popMatrix();
 	}
 

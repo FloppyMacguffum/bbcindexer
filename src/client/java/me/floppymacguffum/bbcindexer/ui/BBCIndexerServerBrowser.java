@@ -23,14 +23,14 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.ui;
 
-import net.minecraft.text.Text;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.multiplayer.AddServerScreen;
-import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
-import net.minecraft.client.network.ServerAddress;
-import net.minecraft.client.network.ServerInfo;
-import net.minecraft.client.option.ServerList;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.ConnectScreen;
+import net.minecraft.client.gui.screens.ManageServerScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.ServerList;
+import net.minecraft.client.multiplayer.resolver.ServerAddress;
+import net.minecraft.network.chat.Component;
 
 import me.floppymacguffum.bbcindexer.util.BBCServer;
 import me.floppymacguffum.bbcindexer.util.BBCApi;
@@ -40,13 +40,13 @@ public class BBCIndexerServerBrowser extends Screen {
 	private BBCIndexerButton bbcBackButton, bbcNextButton, bbcAddServerButton, bbcJoinServerButton;
 	private BBCServer[] bbcServers;
 	private BBCIndexerServerSlotList bbcServerListSlots;
-	private ServerInfo globServerInfo;
+	private ServerData globServerInfo;
 	private String motd, version, region;
 	private int page;
 	private boolean needsUpdating, erroredOut, cracked;
 
 	public BBCIndexerServerBrowser(Screen parentScreen, String motd, String version, String region, boolean cracked, int page) {
-		super(Text.literal("Break Blocks Club Server Browser"));
+		super(Component.literal("Break Blocks Club Server Browser"));
 		this.parentScreen = parentScreen;
 		this.motd = motd;
 		this.version = version;
@@ -60,36 +60,36 @@ public class BBCIndexerServerBrowser extends Screen {
 
 	protected void init() {
 		super.init();
-		addDrawableChild(new BBCIndexerButton(0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
-		bbcBackButton = new BBCIndexerButton(0, height - 20, 60, 20, Text.literal("Back"), button -> previousPage());
+		addRenderableWidget(new BBCIndexerButton(0, 0, 20, 20, Component.literal("<-"), button -> minecraft.setScreen(parentScreen)));
+		bbcBackButton = new BBCIndexerButton(0, height - 20, 60, 20, Component.literal("Back"), button -> previousPage());
 		bbcBackButton.active = (bbcServers != null && page >= 2);
-		addDrawableChild(bbcBackButton);
-		bbcNextButton = new BBCIndexerButton(width - 60, height - 20, 60, 20, Text.literal("Next"), button -> nextPage());
+		addRenderableWidget(bbcBackButton);
+		bbcNextButton = new BBCIndexerButton(width - 60, height - 20, 60, 20, Component.literal("Next"), button -> nextPage());
 		bbcNextButton.active = (bbcServers != null && bbcServers.length > 19);
-		addDrawableChild(bbcNextButton);
-		bbcAddServerButton = new BBCIndexerButton(width - 166, height - 20, 100, 20, Text.literal("Add to my servers"), button -> addToServerList());
-		bbcJoinServerButton = new BBCIndexerButton(66, height - 20, 100, 20, Text.literal("Join server"), button -> joinServer());
-		bbcServerListSlots = new BBCIndexerServerSlotList(client, width, height, 6 + (textRenderer.fontHeight + 2) * 3, 30, textRenderer.fontHeight + 4);
-		addDrawableChild(bbcServerListSlots);
+		addRenderableWidget(bbcNextButton);
+		bbcAddServerButton = new BBCIndexerButton(width - 166, height - 20, 100, 20, Component.literal("Add to my servers"), button -> addToServerList());
+		bbcJoinServerButton = new BBCIndexerButton(66, height - 20, 100, 20, Component.literal("Join server"), button -> joinServer());
+		bbcServerListSlots = new BBCIndexerServerSlotList(minecraft, width, height, 6 + (font.lineHeight + 2) * 3, 30, font.lineHeight + 4);
+		addRenderableWidget(bbcServerListSlots);
 		if(bbcServers != null) {
 			for(BBCServer srv : bbcServers) {
 				bbcServerListSlots.addEntryToList(new BBCIndexerServerSlotEntry(srv));
 			}
 		}
-		bbcAddServerButton.active = bbcServerListSlots.getSelectedOrNull() != null;
-		bbcJoinServerButton.active = bbcServerListSlots.getSelectedOrNull() != null;
-		addDrawableChild(bbcAddServerButton);
-		addDrawableChild(bbcJoinServerButton);
+		bbcAddServerButton.active = bbcServerListSlots.getSelected() != null;
+		bbcJoinServerButton.active = bbcServerListSlots.getSelected() != null;
+		addRenderableWidget(bbcAddServerButton);
+		addRenderableWidget(bbcJoinServerButton);
 	}
 
-	public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
 		super.render(context, mouseX, mouseY, deltaTicks);
 		bbcBackButton.active = (bbcServers != null && page >= 2);
 		bbcNextButton.active = (bbcServers != null && bbcServers.length > 19);
-		bbcAddServerButton.active = bbcServerListSlots.getSelectedOrNull() != null;
-		bbcJoinServerButton.active = bbcServerListSlots.getSelectedOrNull() != null;
-		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 7, -1);
-		context.drawCenteredTextWithShadow(textRenderer, Text.literal("Page: " + (erroredOut ? "\247cError" : (bbcServers == null ? "Loading..." : page))), width / 2, 20, -1);
+		bbcAddServerButton.active = bbcServerListSlots.getSelected() != null;
+		bbcJoinServerButton.active = bbcServerListSlots.getSelected() != null;
+		context.drawCenteredString(font, title, width / 2, 7, -1);
+		context.drawCenteredString(font, Component.literal("Page: " + (erroredOut ? "\247cError" : (bbcServers == null ? "Loading..." : page))), width / 2, 20, -1);
 		if(needsUpdating) {
 			bbcServerListSlots.clearAllEntries();
 			for(BBCServer srv : bbcServers) {
@@ -99,8 +99,8 @@ public class BBCIndexerServerBrowser extends Screen {
 		}
 	}
 
-	public void close() {
-		client.setScreen(parentScreen);
+	public void onClose() {
+		minecraft.setScreen(parentScreen);
 	}
 
 	private void nextPage() {
@@ -116,30 +116,30 @@ public class BBCIndexerServerBrowser extends Screen {
 	}
 
 	private void addToServerList() {
-		String base = bbcServerListSlots.getSelectedOrNull().getBBCServer().getAddress();
-		int port = bbcServerListSlots.getSelectedOrNull().getBBCServer().getPort();
-		globServerInfo = new ServerInfo("BBC Server", base + ":" + port, ServerInfo.ServerType.OTHER);
-		client.setScreen(new AddServerScreen(this, Text.literal("Add BBC Server"), this::actuallyAddServer, globServerInfo));
+		String base = bbcServerListSlots.getSelected().getBBCServer().getAddress();
+		int port = bbcServerListSlots.getSelected().getBBCServer().getPort();
+		globServerInfo = new ServerData("BBC Server", base + ":" + port, ServerData.Type.OTHER);
+		minecraft.setScreen(new ManageServerScreen(this, Component.literal("Add BBC Server"), this::actuallyAddServer, globServerInfo));
 	}
 
 	private void actuallyAddServer(boolean confirmation) {
 		if(confirmation) {
-			ServerInfo si = new ServerInfo("", "", ServerInfo.ServerType.OTHER);
-			si.copyFrom(globServerInfo);
-			ServerList sl = new ServerList(client);
-			sl.loadFile();
+			ServerData si = new ServerData("", "", ServerData.Type.OTHER);
+			si.copyNameIconFrom(globServerInfo);
+			ServerList sl = new ServerList(minecraft);
+			sl.load();
 			sl.add(si, false);
-			sl.saveFile();
+			sl.save();
 		}
-		client.setScreen(this);
+		minecraft.setScreen(this);
 	}
 
 	private void joinServer() {
-		String base = bbcServerListSlots.getSelectedOrNull().getBBCServer().getAddress();
-		int port = bbcServerListSlots.getSelectedOrNull().getBBCServer().getPort();
+		String base = bbcServerListSlots.getSelected().getBBCServer().getAddress();
+		int port = bbcServerListSlots.getSelected().getBBCServer().getPort();
 		ServerAddress sa = new ServerAddress(base, port);
-		ServerInfo si = new ServerInfo("BBC Server", base + ":" + port, ServerInfo.ServerType.OTHER);
-		ConnectScreen.connect(this, client, sa, si, false, null);
+		ServerData si = new ServerData("BBC Server", base + ":" + port, ServerData.Type.OTHER);
+		ConnectScreen.startConnecting(this, minecraft, sa, si, false, null);
 	}
 
 	public void setBBCServers(BBCServer[] bbcServers) {

@@ -27,8 +27,7 @@ import java.net.URLEncoder;
 
 public class MiscUtils
 {
-	public static String encodeHTTPString(String string)
-	{
+	public static String encodeHTTPString(String string) {
 		try {
 			return URLEncoder.encode(string, "UTF-8");
 		} catch(Exception e) {

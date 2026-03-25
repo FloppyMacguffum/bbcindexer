@@ -23,31 +23,31 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.ui;
 
-import net.minecraft.text.Text;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 public class BBCIndexerMainMenu extends Screen {
 	private Screen parentScreen;
 
 	public BBCIndexerMainMenu(Screen parentScreen) {
-		super(Text.literal("Break Blocks Club Server Indexer Main Menu"));
+		super(Component.literal("Break Blocks Club Server Indexer Main Menu"));
 		this.parentScreen = parentScreen;
 	}
 
 	protected void init() {
 		super.init();
-		addDrawableChild(new BBCIndexerButton((width / 2) - 75, height / 2 - 12, Text.literal("Search Server List"), button -> client.setScreen(new BBCIndexerSearchServers(this))));
-		addDrawableChild(new BBCIndexerButton((width / 2) - 75, height / 2 + 12, Text.literal("Browse Servers"), button -> client.setScreen(new BBCIndexerServerBrowser(this, "", "", "", false, 1))));
-		addDrawableChild(new BBCIndexerButton(0, 0, 20, 20, Text.literal("<-"), button -> client.setScreen(parentScreen)));
+		addRenderableWidget(new BBCIndexerButton((width / 2) - 75, height / 2 - 12, Component.literal("Search Server List"), button -> minecraft.setScreen(new BBCIndexerSearchServers(this))));
+		addRenderableWidget(new BBCIndexerButton((width / 2) - 75, height / 2 + 12, Component.literal("Browse Servers"), button -> minecraft.setScreen(new BBCIndexerServerBrowser(this, "", "", "", false, 1))));
+		addRenderableWidget(new BBCIndexerButton(0, 0, 20, 20, Component.literal("<-"), button -> minecraft.setScreen(parentScreen)));
 	}
 
-	public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
 		super.render(context, mouseX, mouseY, deltaTicks);
-		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 15, -1);
+		context.drawCenteredString(font, title, width / 2, 15, -1);
 	}
 
-	public void close() {
-		client.setScreen(parentScreen);
+	public void onClose() {
+		minecraft.setScreen(parentScreen);
 	}
 }

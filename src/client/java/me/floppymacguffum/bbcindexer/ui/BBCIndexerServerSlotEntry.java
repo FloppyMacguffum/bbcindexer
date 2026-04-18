@@ -24,7 +24,7 @@ SOFTWARE.
 package me.floppymacguffum.bbcindexer.ui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.network.chat.Component;
 
@@ -46,12 +46,12 @@ public class BBCIndexerServerSlotEntry extends ObjectSelectionList.Entry<BBCInde
 	}
 
 	@Override
-	public void renderContent(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+	public void extractContent(GuiGraphicsExtractor context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
 		final Matrix3x2fStack mat = context.pose();
 		mat.pushMatrix();
 		mat.translate(getContentX(), getContentY());
 		String displayStr = server.getAddress() + ":" + server.getPort() + "\247r - " + server.getVersion() + "\247r - cracked: " + (server.getOfflineMode() ? "yes" : "no");
-		context.drawCenteredString(mc.font, displayStr, getWidth() / 2, getContentHeight() / 2 - mc.font.lineHeight / 2, -1);
+		context.centeredText(mc.font, displayStr, getWidth() / 2, getContentHeight() / 2 - mc.font.lineHeight / 2, -1);
 		mat.popMatrix();
 	}
 

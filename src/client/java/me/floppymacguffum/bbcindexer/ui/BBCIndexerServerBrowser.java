@@ -23,7 +23,7 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.ui;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.ManageServerScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -82,14 +82,14 @@ public class BBCIndexerServerBrowser extends Screen {
 		addRenderableWidget(bbcJoinServerButton);
 	}
 
-	public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
-		super.render(context, mouseX, mouseY, deltaTicks);
+	public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
+		super.extractRenderState(context, mouseX, mouseY, deltaTicks);
 		bbcBackButton.active = (bbcServers != null && page >= 2);
 		bbcNextButton.active = (bbcServers != null && bbcServers.length > 19);
 		bbcAddServerButton.active = bbcServerListSlots.getSelected() != null;
 		bbcJoinServerButton.active = bbcServerListSlots.getSelected() != null;
-		context.drawCenteredString(font, title, width / 2, 7, -1);
-		context.drawCenteredString(font, Component.literal("Page: " + (erroredOut ? "\247cError" : (bbcServers == null ? "Loading..." : page))), width / 2, 20, -1);
+		context.centeredText(font, title, width / 2, 7, -1);
+		context.centeredText(font, Component.literal("Page: " + (erroredOut ? "\247cError" : (bbcServers == null ? "Loading..." : page))), width / 2, 20, -1);
 		if(needsUpdating) {
 			bbcServerListSlots.clearAllEntries();
 			for(BBCServer srv : bbcServers) {

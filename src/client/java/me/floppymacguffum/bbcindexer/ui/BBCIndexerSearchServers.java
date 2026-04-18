@@ -24,7 +24,7 @@ SOFTWARE.
 package me.floppymacguffum.bbcindexer.ui;
 
 import net.minecraft.DetectedVersion;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
@@ -61,11 +61,11 @@ public class BBCIndexerSearchServers extends Screen {
 		addRenderableWidget(new BBCIndexerButton(width / 2 - 100, 190, 200, 20, Component.literal("Search"), button -> minecraft.setScreen(new BBCIndexerServerBrowser(this, motdField.getValue(), versionField.getValue(), region.getApiRegion(), crackedServers.selected(), 1))));
 	}
 
-	public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
-		super.render(context, mouseX, mouseY, deltaTicks);
-		context.drawCenteredString(font, title, width / 2, 15, -1);
-		context.drawCenteredString(font, Component.literal("MOTD (Wildcard is supported)"), width / 2, 68 - font.lineHeight, -1);
-		context.drawCenteredString(font, Component.literal("Version (Wildcard is supported)"), width / 2, 104 - font.lineHeight, -1);
+	public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
+		super.extractRenderState(context, mouseX, mouseY, deltaTicks);
+		context.centeredText(font, title, width / 2, 15, -1);
+		context.centeredText(font, Component.literal("MOTD (Wildcard is supported)"), width / 2, 68 - font.lineHeight, -1);
+		context.centeredText(font, Component.literal("Version (Wildcard is supported)"), width / 2, 104 - font.lineHeight, -1);
 	}
 
 	public void onClose() {

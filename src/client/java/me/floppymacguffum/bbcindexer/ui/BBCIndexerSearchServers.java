@@ -49,7 +49,7 @@ public class BBCIndexerSearchServers extends Screen {
 	protected void init() {
 		super.init();
 		this.region = BBCRegion.NONE;
-		addRenderableWidget(new BBCIndexerButton(0, 0, 20, 20, Component.literal("<-"), button -> minecraft.setScreen(parentScreen)));
+		addRenderableWidget(new BBCIndexerButton(0, 0, 20, 20, Component.literal("<-"), button -> minecraft.gui.setScreen(parentScreen)));
 		motdField = new EditBox(font, width / 2 - 100, 62 + font.lineHeight, 200, 20, Component.literal("MOTD (Wildcard is supported)"));
 		addRenderableWidget(motdField);
 		versionField = new EditBox(font, width / 2 - 100, 100 + font.lineHeight, 200, 20, Component.literal("Version (Wildcard is supported)"));
@@ -58,7 +58,7 @@ public class BBCIndexerSearchServers extends Screen {
 		crackedServers = Checkbox.builder(Component.literal("Show only cracked servers"), font).pos(width / 2 - 100, 139).selected(false).build();
 		addRenderableWidget(crackedServers);
 		addRenderableWidget(CycleButton.builder(BBCRegion::getReadableRegion, region).withValues(BBCRegion.values()).create(width / 2 - 100, 166, 200, 20, Component.literal("Region"), (button, bbcRegion) -> region = bbcRegion));
-		addRenderableWidget(new BBCIndexerButton(width / 2 - 100, 190, 200, 20, Component.literal("Search"), button -> minecraft.setScreen(new BBCIndexerServerBrowser(this, motdField.getValue(), versionField.getValue(), region.getApiRegion(), crackedServers.selected(), 1))));
+		addRenderableWidget(new BBCIndexerButton(width / 2 - 100, 190, 200, 20, Component.literal("Search"), button -> minecraft.gui.setScreen(new BBCIndexerServerBrowser(this, motdField.getValue(), versionField.getValue(), region.getApiRegion(), crackedServers.selected(), 1))));
 	}
 
 	public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
@@ -69,6 +69,6 @@ public class BBCIndexerSearchServers extends Screen {
 	}
 
 	public void onClose() {
-		minecraft.setScreen(parentScreen);
+		minecraft.gui.setScreen(parentScreen);
 	}
 }

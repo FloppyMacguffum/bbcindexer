@@ -23,6 +23,8 @@ SOFTWARE.
 */
 package me.floppymacguffum.bbcindexer.ui;
 
+import java.net.HttpURLConnection;
+
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.ManageServerScreen;
@@ -44,6 +46,7 @@ public class BBCIndexerServerBrowser extends Screen {
 	private String motd, version, region;
 	private int page;
 	private boolean needsUpdating, erroredOut, cracked;
+	public HttpURLConnection currentRequest;
 
 	public BBCIndexerServerBrowser(Screen parentScreen, String motd, String version, String region, boolean cracked, int page) {
 		super(Component.literal("Break Blocks Club Server Browser"));
@@ -56,11 +59,12 @@ public class BBCIndexerServerBrowser extends Screen {
 		BBCApi.getBBCServers(this, motd, version, region, cracked, page);
 		this.needsUpdating = false;
 		this.erroredOut = false;
+		this.currentRequest = null;
 	}
 
 	protected void init() {
 		super.init();
-		addRenderableWidget(new BBCIndexerButton(0, 0, 20, 20, Component.literal("<-"), button -> minecraft.setScreen(parentScreen)));
+		addRenderableWidget(new BBCIndexerButton(0, 0, 20, 20, Component.literal("<-"), button -> minecraft.gui.setScreen(parentScreen)));
 		bbcBackButton = new BBCIndexerButton(0, height - 20, 60, 20, Component.literal("Back"), button -> previousPage());
 		bbcBackButton.active = (bbcServers != null && page >= 2);
 		addRenderableWidget(bbcBackButton);
@@ -100,7 +104,19 @@ public class BBCIndexerServerBrowser extends Screen {
 	}
 
 	public void onClose() {
-		minecraft.setScreen(parentScreen);
+		minecraft.gui.setScreen(parentScreen);
+		if(currentRequest != null) {
+			currentRequest.disconnect();
+		}
+		currentRequest = null;
+	}
+
+	@Override
+	public void removed() {
+		if(currentRequest != null) {
+			currentRequest.disconnect();
+		}
+		currentRequest = null;
 	}
 
 	private void nextPage() {
@@ -119,7 +135,7 @@ public class BBCIndexerServerBrowser extends Screen {
 		String base = bbcServerListSlots.getSelected().getBBCServer().getAddress();
 		int port = bbcServerListSlots.getSelected().getBBCServer().getPort();
 		globServerInfo = new ServerData("BBC Server", base + ":" + port, ServerData.Type.OTHER);
-		minecraft.setScreen(new ManageServerScreen(this, Component.literal("Add BBC Server"), this::actuallyAddServer, globServerInfo));
+		minecraft.gui.setScreen(new ManageServerScreen(this, Component.literal("Add BBC Server"), this::actuallyAddServer, globServerInfo));
 	}
 
 	private void actuallyAddServer(boolean confirmation) {
@@ -131,7 +147,7 @@ public class BBCIndexerServerBrowser extends Screen {
 			sl.add(si, false);
 			sl.save();
 		}
-		minecraft.setScreen(this);
+		minecraft.gui.setScreen(this);
 	}
 
 	private void joinServer() {

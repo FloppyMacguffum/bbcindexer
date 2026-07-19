@@ -28,6 +28,7 @@ import java.net.URI;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,19 +44,21 @@ public class BBCApi {
 		String crackedString = cracked ? "on" : "off";
 		String queryStr = "?motd=" + encodedMotd + "&version=" + encodedVersion + "&region=" + encodedRegion + "&page=" + pageParam + "&offlineOnly=" + crackedString + "&limit=20";
 		String url = "https://api.breakblocks.com/api/v0.1/servers/find" + queryStr;
-		final StupidBBCServersHack bbcServers = new StupidBBCServersHack(null);
-		callbackScreen.setBBCServers(bbcServers.servers);
+		callbackScreen.setBBCServers(null);
 		new Thread(() -> {
 			try {
 				HttpURLConnection request = (HttpURLConnection) new URI(url).toURL().openConnection();
 				request.setRequestMethod("GET");
 				request.setDoInput(true);
-				BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+				callbackScreen.currentRequest = request;
+				InputStreamReader isr = new InputStreamReader(request.getInputStream());
+				BufferedReader br = new BufferedReader(isr);
 				String ln, txt = "";
 				while((ln = br.readLine()) != null) {
 					txt += ln;
 				}
 				br.close();
+                                isr.close();
 				JSONObject jso = null;
 				try {
 					jso = new JSONObject(txt);
@@ -73,19 +76,26 @@ public class BBCApi {
 					return;
 				}
 				int elements = ja.length();
-				bbcServers.servers = new BBCServer[elements];
+				BBCServer[] bbcServers = new BBCServer[elements];
 				for(int i = 0; i < elements; i++) {
 					JSONObject jobj = null;
 					try {
 						jobj = ja.getJSONObject(i);
-						bbcServers.servers[i] = new BBCServer(jobj);
+						bbcServers[i] = new BBCServer(jobj);
 					} catch(Exception e) {
 						e.printStackTrace();
 						callbackScreen.setErroredOut(true);
 						return;
 					}
 				}
-				callbackScreen.setBBCServers(bbcServers.servers);
+				callbackScreen.setBBCServers(bbcServers);
+				callbackScreen.currentRequest = null;
+			} catch(SocketException se) {
+				if(callbackScreen.currentRequest == null) {
+					return;
+				}
+				se.printStackTrace();
+				callbackScreen.setErroredOut(true);
 			} catch(Exception e) {
 				e.printStackTrace();
 				callbackScreen.setErroredOut(true);

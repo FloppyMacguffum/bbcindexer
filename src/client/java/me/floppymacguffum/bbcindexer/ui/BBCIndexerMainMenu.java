@@ -37,9 +37,9 @@ public class BBCIndexerMainMenu extends Screen {
 
 	protected void init() {
 		super.init();
-		addRenderableWidget(new BBCIndexerButton((width / 2) - 75, height / 2 - 12, Component.literal("Search Server List"), button -> minecraft.setScreen(new BBCIndexerSearchServers(this))));
-		addRenderableWidget(new BBCIndexerButton((width / 2) - 75, height / 2 + 12, Component.literal("Browse Servers"), button -> minecraft.setScreen(new BBCIndexerServerBrowser(this, "", "", "", false, 1))));
-		addRenderableWidget(new BBCIndexerButton(0, 0, 20, 20, Component.literal("<-"), button -> minecraft.setScreen(parentScreen)));
+		addRenderableWidget(new BBCIndexerButton((width / 2) - 75, height / 2 - 12, Component.literal("Search Server List"), button -> minecraft.gui.setScreen(new BBCIndexerSearchServers(this))));
+		addRenderableWidget(new BBCIndexerButton((width / 2) - 75, height / 2 + 12, Component.literal("Browse Servers"), button -> minecraft.gui.setScreen(new BBCIndexerServerBrowser(this, "", "", "", false, 1))));
+		addRenderableWidget(new BBCIndexerButton(0, 0, 20, 20, Component.literal("<-"), button -> minecraft.gui.setScreen(parentScreen)));
 	}
 
 	public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
@@ -48,6 +48,6 @@ public class BBCIndexerMainMenu extends Screen {
 	}
 
 	public void onClose() {
-		minecraft.setScreen(parentScreen);
+		minecraft.gui.setScreen(parentScreen);
 	}
 }

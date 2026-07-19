@@ -39,6 +39,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class TitleScreenButtonAdderMixin {
 	@Inject(at = @At("RETURN"), method = "init")
 	private void init(CallbackInfo info) {
-		Minecraft.getInstance().screen.addRenderableWidget(new BBCIndexerButton(0, 0, Component.literal("Break Blocks Club Servers"), button -> Minecraft.getInstance().setScreen(new BBCIndexerMainMenu(Minecraft.getInstance().screen))));
+		Minecraft.getInstance().gui.screen.addRenderableWidget(new BBCIndexerButton(0, 0, Component.literal("Break Blocks Club Servers"), button -> Minecraft.getInstance().gui.setScreen(new BBCIndexerMainMenu(Minecraft.getInstance().gui.screen))));
 	}
 }

@@ -41,12 +41,12 @@ public class BBCIndexerServerSlotList extends ObjectSelectionList<BBCIndexerServ
 	}
 
 	protected int scrollBarX() {
-		return minecraft.screen.width - 6;
+		return minecraft.gui.screen.width - 6;
 	}
 
 	protected void extractSelection(GuiGraphicsExtractor context, BBCIndexerServerSlotEntry entry, int fillColor) {
 		int startX = 0;
-		int endX = minecraft.screen.width + (maxScrollAmount() > 0 ? -6 : -1);
+		int endX = minecraft.gui.screen.width + (maxScrollAmount() > 0 ? -6 : -1);
 		context.fill(startX, entry.getContentY() - 2, endX, entry.getContentY() + entry.getContentHeight() + 2, -1);
 		context.fill(startX + 1, entry.getContentY() - 1, endX - 1, entry.getContentY() + minecraft.font.lineHeight + 1, 0xff000000);
 	}

@@ -77,7 +77,7 @@ public class BBCIndexerServerBrowser extends Screen {
 		addRenderableWidget(bbcServerListSlots);
 		if(bbcServers != null) {
 			for(BBCServer srv : bbcServers) {
-				bbcServerListSlots.addEntryToList(new BBCIndexerServerSlotEntry(srv));
+				bbcServerListSlots.addEntryToList(new BBCIndexerServerSlotEntry(srv, bbcServerListSlots));
 			}
 		}
 		bbcAddServerButton.active = bbcServerListSlots.getSelected() != null;
@@ -97,7 +97,7 @@ public class BBCIndexerServerBrowser extends Screen {
 		if(needsUpdating) {
 			bbcServerListSlots.clearAllEntries();
 			for(BBCServer srv : bbcServers) {
-				bbcServerListSlots.addEntryToList(new BBCIndexerServerSlotEntry(srv));
+				bbcServerListSlots.addEntryToList(new BBCIndexerServerSlotEntry(srv, bbcServerListSlots));
 			}
 			needsUpdating = false;
 		}
@@ -167,7 +167,7 @@ public class BBCIndexerServerBrowser extends Screen {
 			}
 			bbcServerListSlots.clearAllEntries();
 			for(BBCServer srv : bbcServers) {
-				bbcServerListSlots.addEntryToList(new BBCIndexerServerSlotEntry(srv));
+				bbcServerListSlots.addEntryToList(new BBCIndexerServerSlotEntry(srv, bbcServerListSlots));
 			}
 		}
 	}

@@ -35,10 +35,12 @@ import me.floppymacguffum.bbcindexer.util.BBCServer;
 public class BBCIndexerServerSlotEntry extends ObjectSelectionList.Entry<BBCIndexerServerSlotEntry> {
 	private Minecraft mc;
 	private BBCServer server;
+	private BBCIndexerServerSlotList bbcIndexerServerSlotList;
 
-	public BBCIndexerServerSlotEntry(BBCServer server) {
+	public BBCIndexerServerSlotEntry(BBCServer server, BBCIndexerServerSlotList bbcIndexerServerSlotList) {
 		this.mc = Minecraft.getInstance();
 		this.server = server;
+		this.bbcIndexerServerSlotList = bbcIndexerServerSlotList;
 	}
 
 	public Component getNarration() {
@@ -53,6 +55,15 @@ public class BBCIndexerServerSlotEntry extends ObjectSelectionList.Entry<BBCInde
 		String displayStr = server.getAddress() + ":" + server.getPort() + "\247r - " + server.getVersion() + "\247r - cracked: " + (server.getOfflineMode() ? "yes" : "no");
 		context.centeredText(mc.font, displayStr, getWidth() / 2, getContentHeight() / 2 - mc.font.lineHeight / 2, -1);
 		mat.popMatrix();
+	}
+
+	@Override
+	public boolean isMouseOver(final double mx, final double my) {
+		int startX = 0;
+                int endX = mc.gui.screen.width + (bbcIndexerServerSlotList.maxScrollAmount() > 0 ? -6 : -1);
+		int startY = getContentY();
+		int endY = getContentY() + getContentHeight();
+		return mx >= startX && mx < endX && my >= startY && my < endY;
 	}
 
 	public BBCServer getBBCServer() {

@@ -60,7 +60,7 @@ public class BBCIndexerServerSlotEntry extends ObjectSelectionList.Entry<BBCInde
 	@Override
 	public boolean isMouseOver(final double mx, final double my) {
 		int startX = 0;
-                int endX = mc.gui.screen.width + (bbcIndexerServerSlotList.maxScrollAmount() > 0 ? -6 : -1);
+		int endX = mc.gui.screen.width + (bbcIndexerServerSlotList.maxScrollAmount() > 0 ? -6 : -1);
 		int startY = getContentY();
 		int endY = getContentY() + getContentHeight();
 		return mx >= startX && mx < endX && my >= startY && my < endY;
